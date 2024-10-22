@@ -1,5 +1,6 @@
 package com.smelgert.broker.controller;
 
+import com.smelgert.broker.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +20,21 @@ public class BrokerController {
     // Calling Service A from Service B using WebClient
     @GetMapping("/callServiceA")
     public Mono<String> callServiceA() {
-        String url = "http://localhost:8080/test"; // URL of Service A's /test endpoint
+        String url = "http://localhost:8080/test";
         return webClientBuilder.build()
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class);  // Perform GET request and return the response as Mono
+                .bodyToMono(String.class);
+    }
+
+    @GetMapping("/callServiceA")
+    public Mono<String> addCustomer(Customer customer) { // Customer moet nog carlease.Customer worden
+        String url = "http://localhost:8080/addCustomer";
+        return webClientBuilder.build()
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(String.class);
     }
 }
